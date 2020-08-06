@@ -1,0 +1,4 @@
+_FPS = 30
+_SCALE = 100 # 1 METER = 100 OPENGL Units
+_SPEED = (0.44704 / _FPS) * _SCALE # MPH -> M/s -> M/frame
+_LANEWIDTH = 3.65
