@@ -18,6 +18,7 @@ class TrafficManager(object):
         self.resetLane()
         
         # Reset vehicle lane (0) and position (-1M)
+        self.vehicle.radomiseModel()
         self.vehicle.laneChange = False
         self.vehicle.resetLane()
         self.vehicle.translate((0,0,-self.vehicle.getDistance()/_SCALE+1), True)
@@ -45,7 +46,6 @@ class TrafficManager(object):
         self.vehicle.setTargetDist(dist)
         
         return str(cam_pos+1) + str(car_pos+1) +  str(car_dest+1) + str(dist_bracket)
-        
         
     def update(self):
         for lane in self.lanes:
@@ -101,13 +101,25 @@ class Vehicle(object):
     def __init__(self, colour=(0,0,1)):
         self.speed = 75
         self.lane = 0
-        self.targetLane = 1
+        self.targetLane = 0
         self.targetDistance = -40 * _SCALE
         self.laneChange = False
+        self.colour = colour
         self.geometry = Cube(origin=(self.lane,0.9,1),shape=(2,1.2,0), colour=colour, fill=True)
 
     def translate(self, transform, raw=False):
         self.geometry.translate(transform, raw)
+        
+    def drift(self):
+        pass
+        
+    def radomiseModel(self):
+        width = 2 + (0.01 * np.random.randint(-50,51))
+        height = np.round(0.6 * width, 2)
+        clear = np.round(0.75 * height, 2)
+        transform = (0, clear - (self.geometry.origin[1]/_SCALE), 0)
+        self.geometry.translate(transform, True)
+        self.geometry.setShape((width, height, 0))
         
     def getDistance(self):
         return self.geometry.origin[2]
