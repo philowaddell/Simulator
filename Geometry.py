@@ -12,6 +12,9 @@ class Geometry(ABC):
         self.shape = tuple([dim * _SCALE for dim in shape])
         self.colour = colour
         self.fill = fill
+        
+    def setShape(self, shape):
+        self.shape = tuple([dim * _SCALE for dim in shape])
     
     # Abstract method
     def render(self):
